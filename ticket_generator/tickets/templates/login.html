@@ -6,6 +6,7 @@
     <title>Agent Login - Kadick Ticket System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Your existing CSS styles remain unchanged */
         body {
             background: linear-gradient(135deg, #6e8efb, #a777e3);
             font-family: 'Times New Roman', Times, serif;
@@ -120,6 +121,17 @@
             align-items: center;
             gap: 15px;
         }
+        
+        /* Error message styling */
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -133,6 +145,13 @@
         </div>
         
         <div class="login-form">
+            <!-- Display error message if it exists -->
+            {% if error %}
+            <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i> {{ error }}
+            </div>
+            {% endif %}
+            
             <form method="post">
                 {% csrf_token %}
                 

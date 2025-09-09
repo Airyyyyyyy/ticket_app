@@ -56,6 +56,10 @@
             justify-content: space-between;
             width: 100%;
         }
+
+        .user-info span {
+            font-size: larger;
+        }
         
         .user-info a {
             color: white;
@@ -175,10 +179,6 @@
 <body>
     <header>
         <div class="header-content">
-            <!-- <div class="logo">
-                <i class="fas fa-ticket-alt"></i>
-                <span>Kadick Ticketing System</span>
-            </div> -->
             <div class="user-info ">
                 <div>
                     <span>Welcome, {{ user.username }}</span>

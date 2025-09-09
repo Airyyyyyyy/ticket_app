@@ -11,18 +11,26 @@ from .models import Ticket
 # Create your views here.
 
 def agent_login(request):
+    error = None
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('create_ticket')
+            if User.objects.filter(username=username).exists():
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    return redirect('create_ticket')
+                else:
+                    error = "Wrong password."
+            else:
+                error = "No account with that agent code."
+        else:
+            error = "Please provide both username and password."
     else:
         form = AuthenticationForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'login.html', {'form': form, 'error': error})
 
 def agent_signup(request):
     error = None
