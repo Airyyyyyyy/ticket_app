@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Ticket</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .ticket-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            max-width: 600px;
+            overflow: hidden;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .ticket-container:hover {
+            transform: translateY(-5px);
+        }
+        
+        .ticket-header {
+            background: linear-gradient(to right, #6e8efb, #a777e3);
+            color: white;
+            text-align: center;
+            padding: 25px 20px;
+        }
+        
+        .ticket-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .logo {
+            font-size: 45px;
+        }
+      
+        .ticket-header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .ticket-form {
+            padding: 30px;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+            text-align: center;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 16px;
+            text-align: left;
+            margin-left: 8%;
+        }
+        
+        .form-group select,
+        .form-group input,
+        .form-group textarea {
+            width: 80%;
+            padding: 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.3s ease;
+            
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group select {
+            margin-right: 5%;
+            width: 85%;
+        }
+
+        .btn-success {
+            background: linear-gradient(to right, #6e8efb, #a777e3);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 500;
+            width: 95%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(110, 142, 251, 0.4);
+            margin-top: 10px;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(to right, #5a6edb, #8a5ed3);
+            box-shadow: 0 6px 15px rgba(90, 110, 219, 0.5);
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+     <div class="ticket-container">
+        <div class="ticket-header">
+            <div class="logo">
+                <i class="fas fa-ticket-alt"></i>
+            </div>
+            <h2>Create New Ticket</h2>
+            <p> Kindly fill out the details below</p>
+        </div>
+
+        <div class="ticket-form">
+            <form method="post" action="{% url 'create_ticket' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="title">Agent ID</label>
+                    <input type="text" id="title" name="agent_id" placeholder="Enter your Agent ID" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" placeholder="Describe the issue" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" name="status" required>
+                        <option value="Open">Open</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                        <option value="Closed">Closed</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="Category" name="category" required>
+                        <option value="POS issues">POS Issues</option>
+                        <option value="Transaction Issue">Transaction Issue</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <select id="location" name="location" required>
+                        <option value="Lagos">Lagos</option>
+                        <option value="Warri">Warri</option>
+                        <option value="Osun">Osun</option>
+                    </select>
+                </div>
+            <button type="submit" class="btn-success">Submit Ticket</button>
+        </form>
+    </div>
+</body>
+</html>

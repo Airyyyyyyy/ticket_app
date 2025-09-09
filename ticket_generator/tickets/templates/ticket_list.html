@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tickets - Kadick Ticketing System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+        
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        
+        .user-info a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+    
+        .page-title {
+            margin: 30px 0;
+            text-align: center;
+            color: #2c3e50;
+        }
+        
+        .page-title h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .page-title p {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        
+        .ticket-table {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .status-open {
+            background-color: #ffe6e6;
+            color: #e74c3c;
+        }
+        
+        .status-in-progress {
+            background-color: #fff4e6;
+            color: #f39c12;
+        }
+        
+        .status-resolved {
+            background-color: #e6f7ff;
+            color: #3498db;
+        }
+        
+        .status-closed {
+            background-color: #e6ffe6;
+            color: #27ae60;
+        }
+        
+        .category {
+            display: inline-block;
+            padding: 5px 12px;
+            background-color: #f1f2f6;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .no-tickets {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+        }
+        
+        .no-tickets i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #bdc3c7;
+        }
+        
+        .btn-create {
+            display: inline-block;
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <!-- <div class="logo">
+                <i class="fas fa-ticket-alt"></i>
+                <span>Kadick Ticketing System</span>
+            </div> -->
+            <div class="user-info ">
+                <div>
+                    <span>Welcome, {{ user.username }}</span>
+                </div>
+                <div>
+                    <a href="{% url 'create_ticket' %}">Create Ticket</a>
+                    <a href="{% url 'agent_login' %}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="page-title">
+            <h1>My Tickets</h1>
+            <p>View all tickets you've created</p>
+        </div>
+        
+        {% if tickets %}
+        <div class="ticket-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ticket ID</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Location</th>
+                        <th>Created Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ticket in tickets %}
+                    <tr>
+                        <td>#{{ ticket.ticket_id }}</td>
+                        <td>{{ ticket.description|truncatewords:10 }}</td>
+                        <td><span class="category">{{ ticket.category }}</span></td>
+                        <td>
+                            <span class="status status-{{ ticket.status|lower|cut:' ' }}">
+                                {{ ticket.status }}
+                            </span>
+                        </td>
+                        <td>{{ ticket.location }}</td>
+                        <td>{{ ticket.created_at|date:"M d, Y" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="no-tickets">
+            <i class="fas fa-ticket-alt"></i>
+            <h2>No tickets found</h2>
+            <p>You haven't created any tickets yet.</p>
+            <a href="{% url 'create_ticket' %}" class="btn-create">Create Your First Ticket</a>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

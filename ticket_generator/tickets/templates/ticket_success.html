@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Created Successfully</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: #2d3748;
+            padding-top: 20px;
+            padding-bottom: 60px;
+        }
+        
+        .success-card { 
+            background: linear-gradient(#02fcc6, lightblue);
+            border-radius: 14px;
+            border: none;
+            overflow: hidden;
+            margin-top: 2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .success-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .success-header {
+            background:#48f0cb;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .success-header h2 {
+            color: gray;
+            font-weight: bold;
+        }
+        
+        .success-header p {
+            font-size: 0.65cm;
+            color: gray;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: bounce 1s;
+        }
+        
+        .success-body {
+            padding: 2.5rem;
+        }
+        
+        .ticket-info {
+            background-color: #f0f9ff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 20px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(140deg, #3856d8, black);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-outline-primary {
+            background: linear-gradient(140deg, #3856d8, black);
+            color: whitesmoke;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-primary:hover {
+            transform: translateY(-2px);
+        }
+        
+        .ticket-id {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #314083;
+            letter-spacing: 1px;
+        }
+            
+        .success-card {
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .whats-next {
+            justify-content: center;
+            display: flex;
+            gap: 1cm;
+        }
+
+        .text-muted {
+            font-size: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="success-card">
+                    <div class="success-header">
+                        <div class="success-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h2> Ticket Created Successfully! </h2>
+                        <p> Your request has been submitted to our support team </p>
+                    </div>
+                    
+                    <div class="success-body">
+                        <div class="ticket-info">
+                            <div class="info-item">
+                                <span><i class="fas fa-ticket-alt me-2"></i>Ticket ID:</span>
+                                <span class="ticket-id">{{ ticket.ticket_id }}</span>
+                            </div>
+                            <div class="info-item">
+                                <span><i class="fas fa-info-circle me-2"></i>Status:</span>
+                                <span class="badge bg-success rounded-pill">{{ ticket.status }}</span>
+                            </div>
+                            <div class="info-item">
+                                <span><i class="fas fa-users me-2"></i>Assigned Team:</span>
+                                <span class="fw-bold">Customer Helpdesk Team</span>
+                            </div>
+                            <div class="info-item">
+                                <span><i class="fas fa-clock me-2"></i>Created At:</span>
+                                <span class="text-muted">{{ ticket.created_at|date:"H:i:s A" }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="whats-next">
+                            <a href="{% url 'create_ticket' %}" class="btn btn-primary">
+                                <i class="fas fa-plus-circle me-2"></i>Create Another Ticket
+                            </a>
+                            <a href="{% url 'ticket_list' %}" class="btn btn-outline-primary">
+                                <i class="fas fa-list me-2"></i>View My Tickets
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>
