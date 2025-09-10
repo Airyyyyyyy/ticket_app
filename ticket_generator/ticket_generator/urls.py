@@ -21,9 +21,10 @@ from tickets import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.agent_login, name='agent_login'),
+    path('login/', views.agent_login, name='agent_login'),
+    path('logout/', views.agent_logout, name='agent_logout'),
     path('create/', views.create_ticket, name='create_ticket'),
     path('tickets/', views.ticket_list, name='ticket_list'),
     path('ticket/success/<int:ticket_id>/', views.ticket_success, name='ticket_success'),
     path('signup/', views.agent_signup, name='agent_signup'),
-    path('ticket-list/', views.ticket_list, name='ticket_list'),
 ]

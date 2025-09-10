@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
@@ -8,8 +8,6 @@ from django.conf import settings
 from django.core.mail import send_mail
 from .models import Ticket
 
-# Create your views here.
-
 def agent_login(request):
     error = None
     if request.method == 'POST':
@@ -17,19 +15,20 @@ def agent_login(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            if User.objects.filter(username=username).exists():
-                user = authenticate(username=username, password=password)
-                if user is not None:
-                    login(request, user)
-                    return redirect('create_ticket')
-                else:
-                    error = "Wrong password."
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('create_ticket')
             else:
-                error = "No account with that agent code."
+                error = "Invalid username or password."
         else:
-            error = "Please provide both username and password."
+            # Extract error messages from form
+            for field, errors in form.errors.items():
+                error = errors[0]
+                break
     else:
-        form = AuthenticationForm()
+            form = AuthenticationForm()
+    
     return render(request, 'login.html', {'form': form, 'error': error})
 
 def agent_signup(request):
@@ -41,12 +40,18 @@ def agent_signup(request):
         if User.objects.filter(username=agent_code).exists():
             error = "Agent Code already exists."
         else:
-            User.objects.create(
+            user = User.objects.create(
                 username=agent_code,
                 password=make_password(password)
             )
-            return redirect('agent_login')
+            # Automatically log the user in after signup
+            login(request, user)
+            return redirect('create_ticket')
     return render(request, 'signup.html', {'error': error})
+
+def agent_logout(request):
+    logout(request)
+    return redirect('agent_login')
 
 @login_required
 def create_ticket(request):

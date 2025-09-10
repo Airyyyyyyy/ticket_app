@@ -47,6 +47,15 @@
         .nav-item {
             list-style: none;
         }
+
+        .nav-link {
+            color: #555;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
         
         .nav-link.btn-view-tickets {
             background: linear-gradient(to right, #6e8efb, #a777e3);
@@ -60,6 +69,12 @@
             gap: 15px;
         }
         
+        .logout-btn {
+            background: linear-gradient(to right, #6e8efb, #a777e3);
+            color: white;
+            box-shadow: 0 4px 10px rgba(110, 142, 251, 0.4);
+        }
+
         .welcome-text {
             color: #555;
             font-weight: 500;
@@ -185,7 +200,7 @@
         
         <div class="user-info">
             <span class="welcome-text">Welcome, {{ user.username }}</span>
-            <a href="{% url 'agent_login' %}" class="nav-link" style="padding: 8px 15px;">
+            <a href="{% url 'agent_login' %}" class="nav-link logout-btn">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </a>
         </div>

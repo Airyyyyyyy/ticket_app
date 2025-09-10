@@ -129,3 +129,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'Abdulmaleeq.l@kadickintegrated.com'
 EMAIL_HOST_PASSWORD = ''
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/create/'
+LOGOUT_REDIRECT_URL = '/login/'
